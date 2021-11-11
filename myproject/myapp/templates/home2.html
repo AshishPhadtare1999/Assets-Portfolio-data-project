@@ -1,0 +1,311 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assets-Portfolio</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> 
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css"
+    rel="stylesheet" type="text/css" />
+    <script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js"
+    type="text/javascript"></script>
+
+
+   <link rel="stylesheet" href="{% static 'demo.css' %}">
+    <!-- <script src="{% static 'js/demo.js' %}"></script> -->
+
+</head>
+
+<body style='background: linear-gradient(#e66465, #9198e5);'>
+
+    <div class="form-style-8">
+
+        <h2>Portfolio-Assets</h2>
+        <form action="{% url 'after' %}" method="POST" target="_blank">
+            {% csrf_token %}
+            <label ><b>Range</b></label><br>
+            <div id='st'>
+                <label for="start"><b>Start date:</b></label>
+                <input type="date" id="start" name="start"
+                    value="st" onchange='update_end_date()'
+                    min={{min}} max={{max}} required >
+                    
+
+                <label for="end"><b>End date:</b></label>
+                <input type="date" id="end" name="end"
+                    value="ed" disabled
+                    min={{min}} max={{max}} required onchange="mydates()" >
+            </div>
+            <div id="test" >
+                <label ><b>Sampling Frequency </b></label><br>
+                <input type="radio" id="javascript" name="fav_language" value="day" checked onClick="javascript:return yourfunction(1)">
+                <label for="day" style='margin:10px'>Weekly</label>
+                <input type="radio" id="css" name="fav_language" value="month" onClick="javascript:return yourfunction(2)">
+                <label for="month" style='margin:10px'>Month</label>
+                <input type="radio" id="html" name="fav_language" value="year" onClick="javascript:return yourfunction(3)">
+                <label for="year" style='margin:10px' >Year</label><br>
+            </div>
+
+                <div id = "day" style = "display:''">
+                <select name="dropdown" class='form-control'  multiple="multiple" id="myday" >
+                    {% for d in day %}
+                    <option name="{{d}}" class='form-control'>{{d}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+
+                <div id = "mnt"  style='display:none'>
+                <select name="dropdown1" class='form-control' multiple="multiple"   id="mymonth" >
+
+                </select>
+                </div>
+
+                <div id = "year" style='display:none'>
+                <select name="dropdown2" class='form-control' multiple="multiple" id="myyear" >
+
+                </select>
+                </div>
+
+                <label ><b>Columns </b></label><br>
+                <div id = "col" >
+                <select name="recommendations" class='form-control' multiple="multiple" id="coll"required  >
+                    {% for c in col %}
+                    <option name="{{c}}" class='form-control' >{{c}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+                
+                <label ><b>View </b></label><br>
+                <input type="radio" id="g" name="showresult" value="Graphical" checked>
+                <label for="Graphical" style='margin:10px'>Graphical</label>
+                <input type="radio" id="s" name="showresult" value="Statistical" >
+                <label for="Statistical" style='margin:10px' >Statistical</label>
+                <div class="custom-control custom-switch" style='margin-left:220px;margin-top:-35px;'>
+                    <input type="checkbox" class="custom-control-input" disabled id="customSwitch1">
+                    <label class="custom-control-label" for="customSwitch1"></label>
+                </div>
+                </br>
+                
+
+                <div id='hide' style='display:none'>
+
+                    <div class="expert" style="position:relative;display: inline-flex;width:100%">
+                        <input type="number"  name="min" step="any"   id='min' style="padding: 2px 0;" placeholder='Min' />
+                        <input class="btn btn-success" id="mnbtn" type="button" style='position: absolute;top:0;right:0;font-size:13px;'
+                         value="Default">
+                    </div>
+
+                    <div class="expert" style="position:relative;display: inline-flex;width:100%">
+                        <input type="number" step="any"  name="ltvar" id='ltv' style="padding: 2px 0;" placeholder='LowerTVar'/>
+                        <input class="btn btn-success" id="ltbtn" type="button" style='position: absolute;top:0;right:0;font-size:13px;'
+                         value="Default">
+                    </div>
+
+                    <div class="expert" style="position:relative;display: inline-flex;width:100%">
+                        <input type="number" step="any"  name="lvar"  id='lv' style="padding: 2px 0;"placeholder='LowerVar'/>
+                        <input class="btn btn-success"id="lvbtn" type="button" style='position: absolute;top:0;right:0;font-size:13px;'
+                         value="Default">
+                    </div>
+
+                    <div class="expert" style="position:relative;display: inline-flex;width:100%">
+                        <input type="number" step="any"  name="uvar" id="uv" style="padding: 2px 0;" placeholder="UpperVar"/>
+                        <input class="btn btn-success"id="uvbtn" type="button" style='position: absolute;top:0;right:0;font-size:13px;  ' 
+                        value="Default">
+                    </div>
+
+                    <div class="expert" style="position:relative;display: inline-flex;width:100%">
+                        <input type="number" step="any"  name="utvar" id="ut" style="padding: 2px 0;" placeholder="UpperTVar" />
+                        <input class="btn btn-success" id="utbtn" type="button" style='position: absolute;top:0;right:0;font-size:13px;'
+                         value="Default">
+                    </div>
+
+                    <div class="expert" style="position:relative;display: inline-flex;width:100%">
+                        <input type="number" step="any"  name="max"   id="mx" style="padding: 2px 0;" placeholder='Max'/>
+                        <input class="btn btn-success" id="mxbtn" type="button" style='position: absolute;top:0;right:0;font-size:13px;'
+                         value="Default">
+                    </div><br>
+
+                </div> 
+                <button class="btn btn-primary" style='margin-left:175px' id="btn" >Submit</button>    
+        </form>
+    </div> 
+<script>
+    $(document).ready(function(){
+        $('#customSwitch1').change(function(){
+            if(this.checked) {
+                $('#hide').css("display","");
+                $("#min").attr("required",true);
+                $("#ltv").attr("required",true);
+                $("#lv").attr("required",true);
+                $("#uv").attr("required",true);
+                $("#ut").attr("required",true);
+                $("#mx").attr("required",true); 
+                
+
+                $('#mnbtn').click(function(){
+                    $("#min").val("-2.53732145332991");
+                })
+                $('#ltbtn').click(function(){
+                    $("#ltv").val("-1.75498331932487");
+                })
+                $('#lvbtn').click(function(){
+                    $("#lv").val("-1.2815515655446");
+                })
+                $('#uvbtn').click(function(){
+                    $("#uv").val("1.2815515655446");
+                })
+                $('#utbtn').click(function(){
+                    $("#ut").val("1.75498331932487");
+                })
+                $('#mxbtn').click(function(){
+                    $("#mx").val("2.53732145332991");
+                })
+                $('#min,#ltv,#')
+
+            }
+            else {
+                $('#hide').css("display","none");
+                $("#min").attr("required",false);
+                $("#ltv").attr("required",false);
+                $("#lv").attr("required",false);
+                $("#uv").attr("required",false);
+                $("#ut").attr("required",false);
+                $("#mx").attr("required",false); 
+                $("#min").val('');
+                $("#ltv").val('');
+                $("#lv").val('');
+                $("#uv").val('');
+                $("#ut").val('');
+                $("#mx").val('');
+
+            }
+        });
+
+        $('#g').click(function(){
+            $('#hide').css("display","none")
+            $("#customSwitch1").attr("disabled",true);
+        })
+        $('#s').click(function(){
+            $('#hide').css("display","none")
+            $("#customSwitch1").attr("disabled",false); 
+        })
+    
+    })
+    
+function yourfunction(radioid)
+    {
+    if(radioid == 1)
+    {    
+        document.getElementById('day').style.display = 'block';
+        document.getElementById('mnt').style.display = 'none';
+        document.getElementById('year').style.display = 'none';
+        document.getElementById("myday").required = true;
+        document.getElementById("mymonth").required = false;
+        document.getElementById("myyear").required = false;
+        
+        }
+        else if(radioid == 2)
+    {  
+        document.getElementById('day').style.display = 'none';
+        document.getElementById('mnt').style.display = '';
+        document.getElementById('year').style.display = 'none';
+        document.getElementById("myday").required = false;
+        document.getElementById("mymonth").required = true;
+        document.getElementById("myyear").required = false;
+    }
+        else if(radioid == 3)
+    {  
+        
+        document.getElementById('year').style.display = '';
+        document.getElementById('day').style.display = 'none';
+        document.getElementById('mnt').style.display = 'none';
+        document.getElementById("myday").required = false;
+        document.getElementById("mymonth").required = false;
+        document.getElementById("myyear").required = true;
+    }
+    }
+
+$('#myday').multiselect({
+      includeSelectAllOption: true
+  });
+$('#mymonth').multiselect({
+      includeSelectAllOption: true
+  });
+$('#myyear').multiselect({
+      includeSelectAllOption: true
+  }); 
+$('#coll').multiselect({
+      includeSelectAllOption: true
+  });
+
+function mydates(){
+    var x = document.getElementById("start").value;
+    var y = document.getElementById("end").value;
+    var s = new Date(x);
+    var e = new Date(y);
+
+    first = s.getFullYear();
+    sec = e.getFullYear();
+
+    m_fst=s.getMonth()
+    m_end=e.getMonth()
+    
+
+    yr_drop = Array();      //For year
+    for(i = first; i <= sec; i++) yr_drop.push(i);
+    
+    var options = '';
+
+    for (var i = 0; i < yr_drop.length; i++) {
+            options += '<option value="' + yr_drop[i]+ '">' + yr_drop[i] + '</option>';
+    }
+
+    
+    $("#myyear").html(options);
+    $('#myyear').multiselect('rebuild');
+    
+    mn_drop=Array();     // For Month
+
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    var opt = '';
+
+    if (first==sec){
+        for(i = m_fst; i <= m_end; i++) mn_drop.push(i);
+        for (var i = 0; i < mn_drop.length; i++) {
+                opt += '<option value="'+monthNames[mn_drop[i]]+'">' + monthNames[mn_drop[i]] + '</option>';
+        }
+        $("#mymonth").html(opt);
+        $('#mymonth').multiselect('rebuild');
+
+    }
+    else{
+        for (var i = 0; i < monthNames.length; i++) {
+                opt += '<option value="'+ monthNames[i]+'">' + monthNames[i] + '</option>';
+        }
+        $("#mymonth").html(opt);
+        $('#mymonth').multiselect('rebuild');
+    } 
+
+}
+
+function update_end_date(){
+    var x = document.getElementById("start").value;
+    
+    document.getElementById("end").setAttribute("min", x);
+    document.getElementById("end").removeAttribute("disabled");
+    
+}
+</script>
+</body>
+</html>
+
